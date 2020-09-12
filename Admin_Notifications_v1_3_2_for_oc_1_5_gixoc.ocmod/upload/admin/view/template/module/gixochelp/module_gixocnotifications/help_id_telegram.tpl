@@ -1,0 +1,76 @@
+ <?php if ((!empty($webhook)) && ($webhook != 'no') && ($webhook != 'potential')) { ?>
+<div class="h3">
+С помощью вашего бота:
+</div>
+<div class="h4">
+<div class="page-header">
+1. <b>Откройте ваш бот.</b> Для этого перейдите по ссылке <a href="<?php echo $webhook; ?>"><?php echo $webhook; ?></a>. Или отсканируйте этот QR-код на вашем устройстве.
+</div>
+<img src="<?php echo $qr; ?>" alt="id telegram" title="id telegram" style="max-width: 100%;"/>
+<div class="page-header">
+2. <b>Отправьте боту команду</b> /start . Или нажмите "Начать".
+</div>
+<div class="page-header">
+3. В ответ Вам <b>бот пришлет ID</b> вида 123456789. Скопируйте его в поле telegram ID.
+</div>
+</div>
+<div class="checkbox"></div>
+<?php } ?>
+<div class="h3">
+С помощью сторонних ботов:
+</div>
+<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i><b> Внимание!</b> В случае получения telegram ID с помощью сторонних ботов, <b>обязательно</b> отравьте любое сообщение своему боту!</div>
+<div class="h4">
+<div class="page-header">
+1. <b>Узнать ID можно с помощью сторонних ботов.</b> Для этого перейдите по любой ссылке, из списка ниже:<br>
+<li class="page-header"><a target="_blank" href="tg://resolve?domain=userinfobot">@userinfobot</a></li>
+<li class="page-header"><a target="_blank" href="tg://resolve?domain=GixOC_NotificationsBot">@GixOC_NotificationsBot</a> - бот автора модуля, с возможностью заказа поддержки</li>
+<li class="page-header"><s><a target="_blank" href="tg://resolve?domain=MyTelegramID_bot">@MyTelegramID_bot</a></s> - <a style="color: red;"> не рабочий!</a></li>
+<li class="page-header"><s><a target="_blank" href="tg://resolve?domain=showmeidbot">@ShowMeID</a></s> - <a style="color: red;"> не рабочий!</a></li>
+<li class="page-header"><s><a target="_blank" href="tg://resolve?domain=my_id_bot">@my_id_bot</a></s> - <a style="color: red;"> не рабочий!</a></li>
+</div>
+<div class="page-header">
+2. <b>Отправьте боту команду</b> /start . Или нажмите "Начать".
+</div>
+<div class="page-header">
+3. В ответ Вам <b>бот пришлет ID</b> вида 123456789. Скопируйте его в поле telegram ID.
+</div>
+</div>
+<div class="checkbox"></div>
+<div class="page-header">
+<div class="h3">
+Для того, чтобы бот мог отправлять сообщения в группу, добавьте его в группу
+</div>
+</div>
+<a href="#help_add_bot_telegram" data-toggle="collapse" class="btn btn-primary">Как добавить бота в группу</a>
+<div class="collapse" id="help_add_bot_telegram">
+<div class="well">
+<div class="h4">
+<div class="page-header">1. Нажмите на иконку группы.</div>
+<img src="view/image/gixochelp/module_gixocnotifications/gixoc_telegram_bot1.jpg" alt="gixoc_telegram_bot" title="gixoc_telegram_bot" style="max-width: 100%;"/>
+<div class="page-header"><p>2. В открывшихся настройках нажмите "Добавить участников".</p></div>
+<img src="view/image/gixochelp/module_gixocnotifications/gixoc_telegram_bot2.jpg" alt="gixoc_telegram_bot" title="gixoc_telegram_bot" style="max-width: 100%;"/>
+<div class="page-header">3. Нажите на ввод.</div>
+<img src="view/image/gixochelp/module_gixocnotifications/gixoc_telegram_bot3.jpg" alt="gixoc_telegram_bot" title="gixoc_telegram_bot" style="max-width: 100%;"/>
+<div class="page-header">4. Введите название вашего бота.</div>
+<img src="view/image/gixochelp/module_gixocnotifications/gixoc_telegram_bot4.jpg" alt="gixoc_telegram_bot" title="gixoc_telegram_bot" style="max-width: 100%;"/>
+<div class="page-header">5. И нажмите "Готово".</div>
+<img src="view/image/gixochelp/module_gixocnotifications/gixoc_telegram_bot1.jpg" alt="gixoc_telegram_bot" title="gixoc_telegram_bot" style="max-width: 100%;"/>
+</div>
+</div>
+</div>
+<div class="h3">
+<div class="page-header">
+Далее необходимо получить ID группы в Telegram. Вы можете это сделать
+</div>
+</div>
+<?php if ((!empty($webhook)) && ($webhook != 'no') && ($webhook != 'potential')) { ?>
+<div class="h4">
+ - с помощью <a href="<?php echo $webhook; ?>">вашего бота</a>. Вы его получите <b>автоматически в сообщении от бота</b>, сразу после добавления бота в группу.
+</div>
+<?php } ?>
+<div class="h4">
+ - с помощью нашего бота: <a href="tg://resolve?domain=GixOC_NotificationsBot">@GixOC_NotificationsBot</a>. Это безопасно, по правилам Telegram, бот не имеет домтупа к сообщениям в группе без соответствующих прав. Для получения ID добавьте бота в нужную группу, и он Вам отправит в сообщении ID группы. Не забудьте удалить его после этого из группы.
+</div>
+<div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i><b> Внимание!</b> Полученный в сообщении ID, <b>обязательно</b> копируйте со знаком "минус"!</div>
+<?php if (isset($help_thanks)) echo $help_thanks; ?>

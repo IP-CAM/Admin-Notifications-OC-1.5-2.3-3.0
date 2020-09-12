@@ -1,0 +1,863 @@
+{{ header }}{{ column_left }}
+<div id="content">
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="pull-right">
+        <button onclick="$('#content form #apply').attr('value', '1'); $('#' + $('#content form').attr('id')).submit();" data-toggle="tooltip" title="{{ button_apply }}" class="btn btn-success"><i class="fa fa-check"></i></button>
+        <button type="submit" form="form-gixocnotifications" data-toggle="tooltip" title="{{ button_save }}" class="btn btn-primary"><i class="fa fa-save"></i></button>
+        <a href="{{ cancel }}" data-toggle="tooltip" title="{{ button_cancel }}" class="btn btn-default"><i class="fa fa-reply"></i></a>
+      </div>
+      <h1>{{ heading_title }}</h1>
+      <ul class="breadcrumb">
+        {% for breadcrumb in breadcrumbs %}
+        <li><a href="{{ breadcrumb.href }}">{{ breadcrumb.text }}</a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+  <div class="container-fluid">{% if error_warning %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ error_warning }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if success %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ success }}
+      <button type="button" class="close" data-dismiss="alert">&times;</button>
+    </div>
+    {% endif %}
+    {% if text_old_version %}
+    <div class="alert alert-danger alert-dismissible"><i class="fa fa-exclamation-circle"></i> {{ text_old_version }}</div>
+    {% endif %}
+    {% if text_new_version %}
+    <div class="alert alert-success alert-dismissible"><i class="fa fa-check-circle"></i> {{ text_new_version }}</div>
+    {% endif %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-pencil"></i>{{ text_edit }}</h3>
+      </div>
+      <div class="panel-body">
+        <form action="{{ action }}" method="post" enctype="multipart/form-data" id="form-gixocnotifications" class="form-horizontal">
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#tab-general" data-toggle="tab"><i class="fa fa-cog"></i> {{ tab_general }}</a></li>
+            <li><a href="#tab-users" data-toggle="tab"><i class="fa fa-users"></i> {{ tab_users }}</a></li>
+            <li><a href="#tab-template" data-toggle="tab"><i class="fa fa-envelope"></i> {{ tab_template }}</a></li>
+            <li><a href="#tab-logs" data-toggle="tab"><i class="fa fa-book"></i> {{ tab_logs }}</a></li>
+            <li><a href="#tab-help" data-toggle="tab" class="btn btn-info" style="color: #424242;"><b><i class="fa fa-life-ring"></i> {{ tab_support }}</b></a></li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab-general">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ entry_status }}</label>
+                <div class="col-sm-5">
+                  <select name="module_gixocnotifications_status" id="input-status" class="form-control">
+                  {% if module_gixocnotifications_status %}
+                    <option value="1" selected="selected">{{ text_enabled }}</option>
+                    <option value="0">{{ text_disabled }}</option>
+                  {% else %}
+                    <option value="1">{{ text_enabled }}</option>
+                    <option value="0" selected="selected">{{ text_disabled }}</option>
+                  {% endif %} 
+                  </select>
+                </div>  
+                <div class="col-sm-5">
+                    <a class="btn btn-success" onclick="help('help_thanks');"><i class="fa fa-money"></i> {{ help_thanks }}</a>&nbsp;&nbsp;
+                    <a class="btn btn-warning" onclick="help('help_module');"><i class="fa fa-life-ring"></i> {{ help_module }}</a>
+                </div>
+              </div>
+              <fieldset>
+                <legend>Telegram</legend>
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="module_gixocnotifications_telegram_key">{{ entry_telegram_key }}</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="module_gixocnotifications_telegram_key" value="{{ module_gixocnotifications_telegram_key }}" placeholder="{{ entry_telegram_key }}" id="telegram_key" class="form-control" />
+                    <a onclick="help('help_bot_telegram');"><div style="text-align:center;font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i> {{ entry_get_token_telegram }}</div></a>
+                  </div>
+                  <div class="col-sm-2" id="telegram_webhook">
+                    <a class="btn btn-primary" onclick="webhook('telegram');"><i class="fa fa-retweet"></i> {{ button_verify }}</a>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input type="hidden" name="module_gixocnotifications_telegram_webhook" value="{{ module_gixocnotifications_telegram_webhook ? module_gixocnotifications_telegram_webhook : 'no'}} " />
+                  <label class="col-sm-2 control-label">{{ help_trim_messages }} <a onclick="help('help_trim_messages');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></label>
+                  <div class="col-sm-3">
+                    <label class="radio-inline">
+                      {% if module_gixocnotifications_telegram_trim_messages %}
+                      <input type="radio" name="module_gixocnotifications_telegram_trim_messages" value="1" checked="checked" />
+                      {{ text_cut }}
+                      {% else %}
+                      <input type="radio" name="module_gixocnotifications_telegram_trim_messages" value="1" />
+                      {{ text_cut }}
+                      {% endif %} 
+                    </label>
+                    <label class="radio-inline">
+                      {% if not module_gixocnotifications_telegram_trim_messages %}
+                      <input type="radio" name="module_gixocnotifications_telegram_trim_messages" value="0" checked="checked" />
+                      {{ text_split }}
+                      {% else %}
+                      <input type="radio" name="module_gixocnotifications_telegram_trim_messages" value="0" />
+                      {{ text_split }}
+                      {% endif %} 
+                    </label>
+                  </div>
+                  <label class="col-sm-2 control-label">{{ help_timeout }} <a onclick="help('help_timeout');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></label>
+                  <div class="col-sm-1">
+                    <input type="text" name="module_gixocnotifications_telegram_timeout" value="{{ module_gixocnotifications_telegram_timeout ? module_gixocnotifications_telegram_timeout : '5' }} " placeholder="{{ help_timeout }}"  class="form-control" />
+                  </div>
+                  <label class="col-sm-2 control-label">{{ entry_proxy_status }} <a onclick="help('help_proxy');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></label>
+                  <div class="col-sm-2">
+                    <label class="radio-inline">
+                      {% if module_gixocnotifications_telegram_proxy %}
+                      <input type="radio" name="module_gixocnotifications_telegram_proxy" value="1" checked="checked" onChange="show()" />
+                      {{ text_yes }}
+                      {% else %}
+                      <input type="radio" name="module_gixocnotifications_telegram_proxy" value="1" onChange="show()" />
+                      {{ text_yes }}
+                      {% endif %}
+                    </label>
+                    <label class="radio-inline">
+                      {% if not module_gixocnotifications_telegram_proxy %}
+                      <input type="radio" name="module_gixocnotifications_telegram_proxy" value="0" checked="checked" onChange="hide()" />
+                      {{ text_no }}
+                      {% else %}
+                      <input type="radio" name="module_gixocnotifications_telegram_proxy" value="0" onChange="hide()" />
+                      {{ text_no }}
+                      {% endif %}
+                    </label>
+                  </div>
+                </div>
+                <div class="form-group" id="proxy" style="display: {{ module_gixocnotifications_telegram_proxy ? 'block;' : 'none;' }}">
+                  <label class="col-sm-2 control-label" for="module_gixocnotifications_telegram_proxydata">{{ entry_proxy }}</label>
+                  <div class="col-sm-8 required">
+                  <table class="table table-bordered table-hover" id="proxy">
+                    <thead>
+                      <tr>
+                        <td class="text-right">{{ column_use }}</td>
+                        <td class="text-right control-label">{{ column_ip }}</td>
+                        <td class="text-right control-label">{{ column_port }}</td>
+                        <td class="text-right">{{ column_login }}</td>
+                        <td class="text-right">{{ column_password }}</td>
+                        <td class="text-right">{{ button_delete }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% if module_gixocnotifications_telegram_proxydata %}
+                      {% for key, proxy in module_gixocnotifications_telegram_proxydata %}
+                      <tr id="proxy{{ key }}">
+                        {% if proxy.status %}
+                        <td class="text-center"><input name="module_gixocnotifications_telegram_proxydata[{{ key }}][status]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_telegram_proxydata[{{ key }}][status]" type="checkbox"></td>
+                        {% endif %}
+                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[{{ key }}][ip]" value="{{ proxy.ip ? proxy.ip : '' }}" placeholder="{{ column_ip }}"  class="form-control" /></td>
+                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[{{ key }}][port]" value="{{ proxy.port ? proxy.port : '' }}" placeholder="{{ column_port }}"  class="form-control" /></td>
+                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[{{ key }}][login]" value="{{ proxy.login ? proxy.login : '' }}" placeholder="{{ column_login }}"  class="form-control" /></td>
+                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[{{ key }}][password]" value="{{ proxy.password ? proxy.password : '' }}" placeholder="{{ column_password }}"  class="form-control" /></td>
+                        <td><button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger pull-right" onclick="confirm('{{ text_confirm }}') ? $('#proxy{{ key }}').remove() : false;"><i class="fa fa-trash-o"></i></button></td>            
+                      </tr>
+                    {% endfor %}
+                    {% endif %}
+                    </tbody>
+                  </table>
+                  </div>
+                  <div class="col-sm-2">
+                    <button type="button" onclick="addProxy();" data-toggle="tooltip" class="btn btn-primary"><i class="fa fa-plus-circle"></i> {{ button_proxy_add }}</button>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Viber</legend>
+                {% if not ssl %}        
+                <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>  {{ error_viber }}</div>
+                {% else %}
+                <div class="form-group required">
+                  <label class="col-sm-2 control-label" for="input-viber">{{ entry_viber_key }}</label>
+                  <div class="col-sm-8">
+                    <input type="text" name="module_gixocnotifications_viber_key" value="{{ module_gixocnotifications_viber_key }}" placeholder="{{ entry_viber_key }}" id="viber_key" class="form-control" />
+                    <a onclick="help('help_bot_viber');"><div style="text-align:center;font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i> {{ entry_get_token_viber }}</div></a>
+                  </div>
+                  <div class="col-sm-2" id="viber_webhook">
+                    <a class="btn btn-primary" onclick="webhook('viber');"><i class="fa fa-retweet"></i> {{ button_verify }}</a>
+                  </div>
+                </div>
+                <div class="form-group">
+                <input type="hidden" name="module_gixocnotifications_viber_webhook" value="{{ module_gixocnotifications_viber_webhook ? module_gixocnotifications_viber_webhook :  'no' }}" />
+                  <label class="col-sm-2 control-label">{{ help_trim_messages }} <a onclick="help('help_trim_messages');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></label>
+                  <div class="col-sm-3">
+                    <label class="radio-inline">
+                      {% if module_gixocnotifications_viber_trim_messages %}
+                      <input type="radio" name="module_gixocnotifications_viber_trim_messages" value="1" checked="checked" />
+                      {{ text_cut }}
+                      {% else %}
+                      <input type="radio" name="module_gixocnotifications_viber_trim_messages" value="1" />
+                      {{ text_cut }}
+                      {% endif %}
+                    </label>
+                    <label class="radio-inline">
+                      {% if not module_gixocnotifications_viber_trim_messages %}
+                      <input type="radio" name="module_gixocnotifications_viber_trim_messages" value="0" checked="checked" />
+                      {{ text_split }}
+                      {% else %}
+                      <input type="radio" name="module_gixocnotifications_viber_trim_messages" value="0" />
+                      {{ text_split }}
+                      {% endif %}
+                    </label>
+                  </div>
+                  <label class="col-sm-2 control-label">{{ help_timeout }} <a onclick="help('help_timeout');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></label>
+                  <div class="col-sm-1">
+                    <input type="text" name="module_gixocnotifications_viber_timeout" value="{{ module_gixocnotifications_viber_timeout ? module_gixocnotifications_viber_timeout : '5' }}" placeholder="{{ help_timeout }}"  class="form-control" />
+                  </div>
+                </div>
+                {% endif %}
+              </fieldset>
+            </div>
+            <div class="tab-pane" id="tab-users">
+              <ul class="nav nav-tabs">
+              {% for keys, messenger in messengers %}
+                <li {% if (keys == '1') %} class="active"{% endif %}><a href="#tab-{{ messenger }}_users" data-toggle="tab">{{ attribute(messengers_text, keys) }}</a></li>
+              {% endfor %}
+              </ul>
+              <div class="tab-content">
+              {% for keys, messenger in messengers %}
+                <div class="tab-pane {% if (keys == '1') %} active {% endif %}required table-responsive" id="tab-{{ messenger }}_users">
+                  <table class="table table-bordered table-hover">
+                    <thead>
+                      <tr>
+                        <td rowspan="2" class="text-right">{{ column_user }}</td>
+                        <td rowspan="2" class="text-right control-label">{{ messenger }}{{ column_id }} <a onclick="help_id('{{ messenger }}');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></td>
+                        <td colspan="4" class="text-center">{{ column_new }}</td>
+                        <td rowspan="2" class="text-right">{{ tab_action }}</td>
+                      </tr>
+                      <tr>
+                        <td class="text-center">{{ column_new_order }}</td>
+                        <td class="text-center">{{ column_new_customer }}</td>
+                        <td class="text-center">{{ column_new_review }}</td>
+                        <td class="text-center">{{ column_new_return }}</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                      <tr>
+                        <td class="text-left">{{ user.username }}</td>
+                        <td><input type="text" name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][id_{{ messenger }}]" value="{{ attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'id_' ~ messenger) ? attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'id_' ~ messenger) : '' }}" placeholder="{{ messenger }}{{ column_id }}"  class="form-control" />
+                        </td>
+                        {% if (attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'new_order_' ~ messenger)) %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_order_{{ messenger }}]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_order_{{ messenger }}]" type="checkbox"></td>
+                        {% endif %}
+                        {% if (attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'new_customer_' ~ messenger)) %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_customer_{{ messenger }}]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_customer_{{ messenger }}]" type="checkbox"></td>
+                        {% endif %}
+                        {% if (attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'new_review_' ~ messenger)) %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_review_{{ messenger }}]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_review_{{ messenger }}]" type="checkbox"></td>
+                        {% endif %}
+                        {% if (attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'new_return_' ~ messenger)) %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_return_{{ messenger }}]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id }}][new_return_{{ messenger }}]" type="checkbox"></td>
+                        {% endif %}
+                        <td class="text-left"></td>
+                      </tr>
+                    {% endfor %}
+                    {% if (attribute(module_gixocnotifications_groupdata, messenger)) %}
+                    {% for id_group, group in attribute(module_gixocnotifications_groupdata, messenger) %}
+                      <tr id="group_{{ messenger }}_new_{{ id_group }}">
+                        <td><input type="text" name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][name]" value="{{ group.name ? group.name : '' }}" placeholder="{{ text_comment }}"  class="form-control"  onKeyUp="ChangeOnFly(this, {{ id_group }},'{{ messenger }}');" />
+                        </td>
+                        <td><input type="text" name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][id]" value="{{ group.id ? group.id : '' }}" placeholder="{{ messenger }}{{ column_id }}"  class="form-control" />
+                        </td>
+                        {% if group.new_order %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_order]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_order]" type="checkbox"></td>
+                        {% endif %}
+                        {% if group.new_customer %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_customer]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_customer]" type="checkbox"></td>
+                        {% endif %}
+                        {% if group.new_review %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_review]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_review]" type="checkbox"></td>
+                        {% endif %}
+                        {% if group.new_return %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_return]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][new_return]" type="checkbox"></td>
+                        {% endif %}
+                        <td><button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger pull-right" onclick="confirm('{{ text_confirm }}') ? delGroup('{{ messenger }}', {{ id_group }}) : false;"><i class="fa fa-trash-o"></i></button></td>
+                      </tr>
+                    {% endfor %}
+                    {% endif %}
+                      <tr id="add_new_{{ messenger }}">
+                        <td colspan="8">
+                          <button type="button" onclick="addGroup{{ messenger }}();" data-toggle="tooltip" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table table-bordered table-hover table-condensed" id="add_orders_{{ messenger }}">
+                    <thead>
+                      <tr>
+                        <td rowspan="2" class="text-left">{{ column_user }}</td>
+                        <td colspan="{{ count_order_statuses }}" class="text-center">{{ column_orders }}</td>
+                      </tr>
+                      <tr>
+                        {% for order_status in order_statuses %}
+                        <td class="text-center">{{ order_status.name }}</td>  
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                      <tr>
+                        <td class="text-left">{{ user.username }}</td>
+                        {% for order_status in order_statuses %}
+                        {% if (attribute(attribute(attribute(attribute(module_gixocnotifications_userdata, messenger), user.user_id), 'orders_' ~ messenger), order_status.order_status_id)) %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id}}][orders_{{ messenger }}][{{ order_status.order_status_id }}]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_userdata[{{ messenger }}][{{ user.user_id}}][orders_{{ messenger }}][{{ order_status.order_status_id }}]" type="checkbox"></td>
+                        {% endif %}
+                        {% endfor %} 
+                      </tr>
+                    {% endfor %}
+                    {% for id_group, group in attribute(module_gixocnotifications_groupdata, messenger) %}
+                      <tr id="group_{{ messenger }}_orders_{{ id_group }}">
+                        <td class="text-left" id="group_{{ messenger }}_orders_{{ id_group }}_name" >{{ group.name ? group.name : '' }}</td>
+                        {% for order_status in order_statuses %}
+                        {% if (attribute(group.orders, order_status.order_status_id)) %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][orders][{{ order_status.order_status_id }}]" type="checkbox" checked></td>
+                        {% else %}
+                        <td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][{{ id_group }}][orders][{{ order_status.order_status_id }}]" type="checkbox"></td>
+                        {% endif %}
+                        {% endfor %}
+                      </tr>
+                    {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-template">
+              <ul class="nav nav-tabs">
+              {% for keys, messenger in messengers %}
+                <li {% if (keys == '1') %} class="active"{% endif %}>
+                  <a href="#tab-{{ messenger }}_template" data-toggle="tab">{{ attribute(messengers_text, keys) }}</a>
+                </li>
+              {% endfor %}
+              </ul>
+              <div class="tab-content">
+              {% for keys, messenger in messengers %}
+                <div class="tab-pane {% if (keys == '1') %} active {% endif %}" id="tab-{{ messenger }}_template">
+                  <fieldset>
+                    <legend>{{ legend_new_order }} ({{ attribute(messengers_text, keys) }})</legend>
+                    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ help_new_order }}</div>
+                    <div class="form-group required">
+                      <div class="col-sm-8">
+                        {% for language in languages %}
+                        <div class="input-group">
+                          <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                          <textarea name="module_gixocnotifications_langdata[{{ language.language_id }}][new_order_{{ messenger }}]" rows="7" placeholder="{{ help_new_order_ex }}" class="form-control">{{ attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_order_' ~ messenger) ? attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_order_' ~ messenger) : help_new_order_ex }}</textarea>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="col-sm-4">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTable1{{ messenger }}" class="btn btn-primary collapsed">{{ text_variables }}</a>
+                        <div id="collapseTable1{{ messenger }}" class="panel-collapse collapse">
+                          <table class="table table-bordered table-hover">
+                            <tbody>
+                            {% for key, list in ordervar %}
+                            <tr>
+                              <td class="text-left">{{ key }}</td>
+                              <td class="text-left">{{ list }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for id, value in simplevar %}
+                            <tr>
+                              <td class="text-left">{{ id }}</td>
+                              <td class="text-left">{{ attribute(value.label, langcode) }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>{{ legend_new_customer }} ({{ attribute(messengers_text, keys) }})</legend>
+                    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ help_new_customer }}</div>
+                    <div class="form-group required">
+                      <div class="col-sm-8">
+                        {% for language in languages %}
+                        <div class="input-group">
+                          <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                          <textarea name="module_gixocnotifications_langdata[{{ language.language_id }}][new_customer_{{ messenger }}]" rows="7" placeholder="{{ help_new_customer_ex }}" class="form-control">{{ attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_customer_' ~ messenger) ? attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_customer_' ~ messenger) : help_new_customer_ex }}</textarea>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="col-sm-4">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTable2{{ messenger }}" class="btn btn-primary collapsed">{{ text_variables }}</a>
+                        <div id="collapseTable2{{ messenger }}" class="panel-collapse collapse">
+                          <table class="table table-bordered table-hover">
+                            <tbody>
+                            {% for key, list in customervar %}
+                            <tr>
+                              <td class="text-left">{{ key }}</td>
+                              <td class="text-left">{{ list }}</td>
+                            </tr>
+                            {% endfor %}
+                            {% for id, value in simplevar %}
+                            {% if (value.object == 'customer')  or  (value.object == 'address') %}
+                            <tr>
+                              <td class="text-left">{{ id }}</td>
+                              <td class="text-left">{{ attribute(value.label, langcode) }}</td>
+                            </tr>
+                            {% endif %}
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>{{ legend_new_review }} ({{ attribute(messengers_text, keys) }})</legend>
+                    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ help_new_review }}</div>
+                    <div class="form-group required">
+                      <div class="col-sm-8">
+                        {% for language in languages %}
+                        <div class="input-group">
+                          <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                          <textarea name="module_gixocnotifications_langdata[{{ language.language_id }}][new_review_{{ messenger }}]" rows="7" placeholder="{{ help_new_review_ex }}" class="form-control">{{ attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_review_' ~ messenger) ? attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_review_' ~ messenger) : help_new_review_ex }}</textarea>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="col-sm-4">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTable3{{ messenger }}" class="btn btn-primary collapsed">{{ text_variables }}</a>
+                        <div id="collapseTable3{{ messenger }}" class="panel-collapse collapse">
+                          <table class="table table-bordered table-hover">
+                            <tbody>
+                            {% for key, list in reviewvar %}
+                            <tr>
+                              <td class="text-left">{{ key }}</td>
+                              <td class="text-left">{{ list }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>{{ legend_new_return }} ({{ attribute(messengers_text, keys) }})</legend>
+                    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ help_new_return }}</div>
+                    <div class="form-group required">
+                      <div class="col-sm-8">
+                        {% for language in languages %}
+                        <div class="input-group">
+                          <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                          <textarea name="module_gixocnotifications_langdata[{{ language.language_id }}][new_return_{{ messenger }}]" rows="7" placeholder="{{ help_new_return_ex }}" class="form-control">{{ attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_return_' ~ messenger) ? attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'new_return_' ~ messenger) : help_new_return_ex }}</textarea>
+                        </div>
+                        {% endfor %}
+                      </div>
+                      <div class="col-sm-4">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTable4{{ messenger }}" class="btn btn-primary collapsed">{{ text_variables }}</a>
+                        <div id="collapseTable4{{ messenger }}" class="panel-collapse collapse">
+                          <table class="table table-bordered table-hover">
+                            <tbody>
+                            {% for key, list in returnvar %}
+                            <tr>
+                              <td class="text-left">{{ key }}</td>
+                              <td class="text-left">{{ list }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </fieldset>
+                  <fieldset>
+                    <legend>{{ legend_orders }} ({{ attribute(messengers_text, keys) }})</legend>
+                    <div class="alert alert-info"><i class="fa fa-info-circle"></i> {{ help_orders }}</div>
+                    {% for order_status in order_statuses %}
+                      <div class="form-group required">
+                        <div class="col-sm-2">
+                          <label>{{ order_status.name }}</label>
+                        </div>
+                        <div class="col-sm-6">
+                          {% for language in languages %}
+                          <div class="input-group">
+                            <span class="input-group-addon"><img src="language/{{ language.code }}/{{ language.code }}.png" title="{{ language.name }}" /></span>
+                            <textarea name="module_gixocnotifications_langdata[{{ language.language_id }}][orders_{{ messenger }}][{{ order_status.order_status_id }}]" rows="7" placeholder="{{ help_orders_ex }}" class="form-control">{{ attribute(attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'orders_' ~ messenger), order_status.order_status_id) ? attribute(attribute(attribute(module_gixocnotifications_langdata, language.language_id), 'orders_' ~ messenger), order_status.order_status_id) : help_orders_ex }}</textarea>
+                          </div>
+                          {% endfor %}
+                        </div>
+                        <div class="col-sm-4">
+                          <a data-toggle="collapse" data-parent="#accordion" href="#collapseOrders{{ order_status.order_status_id }}{{ messenger }}" class="btn btn-primary collapsed">{{ text_variables }}</a>
+                          <div id="collapseOrders{{ order_status.order_status_id }}{{ messenger }}" class="panel-collapse collapse">
+                            <table class="table table-bordered table-hover">
+                              <tbody>
+                                {% for key, list in ordervar %}
+                                <tr>
+                                  <td class="text-left">{{ key }}</td>
+                                  <td class="text-left">{{ list }}</td>
+                                </tr>
+                                {% endfor %}
+                                {% for id, value in simplevar %}
+                                <tr>
+                                  <td class="text-left">{{ id }}</td>
+                                  <td class="text-left">{{ attribute(value.label, langcode) }}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    {% endfor %}
+                  </fieldset>
+                </div>
+              {% endfor %}
+             </div>
+           </div>
+            <div class="tab-pane" id="tab-logs">
+              <ul class="nav nav-tabs">
+              {% for keys, messenger in messengers %}
+                <li {% if (keys == '1') %} class="active"{% endif %}><a href="#tab-{{ messenger }}_logs" data-toggle="tab">{{ attribute(messengers_text, keys) }}</a></li>
+              {% endfor %}
+              </ul>
+              <div class="tab-content">
+              {% for keys, messenger in messengers %}
+                <div class="tab-pane {% if (keys == '1') %} active {% endif %}" id="tab-{{ messenger }}_logs">
+                  <div class="form-group">
+                    <label class="col-sm-2 control-label">{{ entry_status }} <a onclick="help('help_log');" style="font-size:15px;cursor: pointer;"><i class="fa fa-life-ring"></i></a></label>
+                    <div class="col-sm-7">
+                      <select name="module_gixocnotifications_logs[{{ messenger }}]" id="input-status" class="form-control">
+                      {% for key, value in logs %}
+                        {% if (key == attribute(module_gixocnotifications_logs, messenger)) %}
+                        <option value="{{ key }}" selected="selected">{{ value }}</option>
+                        {% else %}
+                        <option value="{{ key }}">{{ value }}</option>
+                        {% endif %} 
+                      {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-sm-3">
+                      <a class="btn btn-danger" onclick="clearLog('{{ messenger }}');"><i class="fa fa-download"></i> {{ button_delete }}</a>
+                      <a class="btn btn-primary" onclick="downloadLog('{{ messenger }}');"><i class="fa fa-download"></i> {{ button_download }}</a>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <textarea id="log_{{ messenger }}" wrap="on" rows="15" readonly class="form-control">{{ attribute(logs_file, messenger) }}</textarea>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane" id="tab-help">
+              <div class="well">
+                <div class="form-group">
+                  <label class="col-sm-2 control-label">{{ tab_support }}</label>
+                  <div class="col-sm-8">
+                    <a class="btn btn-warning" onclick="help('help_faq');"><i class="fa fa-question-circle"></i> {{ help_faq }}</a>&nbsp;&nbsp;
+                    <a class="btn btn-info" onclick="help('help_support');"><i class="fa fa-life-ring"></i> {{ tab_support }}</a>&nbsp;&nbsp;
+                    <a class="btn btn-success" onclick="help('help_thanks');"><i class="fa fa-money"></i> {{ help_thanks }}</a>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ text_developer }}</label>
+                <div class="col-sm-10">GixOC: <a target="_blank" href="https://gixoc.ru" class="btn btn-link"><i class="fa fa-globe"></i> GixOC.ru</a>|<a target="_blank" href="tg://resolve?domain=GixOC_NotificationsBot" class="btn btn-link"><i class="fa fa-paper-plane"></i> @GixOC_NotificationsBot</a>|<a target="_blank" href="viber://pa/info?uri=GixOC_NotificationsBot" class="btn btn-link"><i class="fa fa-phone"></i> @GixOC_NotificationsBot</a></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ help_license }}</label>
+                <div class="col-sm-10"><a onclick="help('help_license');" class="btn btn-link">GNU General Public License version 3 (GPLv3)</a></div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ button_download }}</label>
+                <div class="col-sm-10">
+                  {{ text_url_download }}<br>
+                  <li><a target="_blank" href="https://github.com/gixoc/AdminNotifications">GitHub.com</a></li>
+                  <li><a target="_blank" href="https://opencartforum.com/files/file/7109-admin-notifications-uvedomleniya-administratora-telegram-viber/">OpenCartForum.com</a></li>
+                  <li><a target="_blank" href="http://forum.opencart-russia.ru/threads/admin-notifications-uvedomlenija-administratora-telegram-viber.8186/">OpenCart-Russia.ru</a></li>
+                  <li><a target="_blank" href="https://liveopencart.ru/opencart-moduli-shablony/moduli/mail-sms/admin-notifications-uvedomleniya-administratora-telegram-viber">LiveOpenCart.ru</a></li>
+                  <li><a target="_blank" href="https://prodelo.biz/moduli-opencart/pisma-pochta-sms/admin-notifications-uvedomleniya-administratora-telegram-viber">ProDelo.biz</a></li>
+                  <li>Telegram Bot - <a target="_blank" href="tg://resolve?domain=GixOC_NotificationsBot">@GixOC_NotificationsBot</a></li>
+                  <li>Viber Bot - <a target="_blank" href="viber://pa/info?uri=GixOC_NotificationsBot">@GixOC_NotificationsBot</a></li>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">{{ text_sources }}</label>
+                <div class="col-sm-10">
+                  <ul>
+                    <li><a target="_blank" href="https://www.opencart.com/" class="btn btn-link">Opencart</a></li>
+                    <li><a target="_blank" href="https://core.telegram.org/bots/api" class="btn btn-link">Telegram Bot API</a></li>
+                    <li><a target="_blank" href="https://viber.github.io/docs/api/rest-bot-api/" class="btn btn-link">Viber API Documentation</a></li>
+                    <li><a target="_blank" href="https://github.com/gixoc/Smart_Customer_Dashboard" class="btn btn-link">GixOC: Smart Customer Dashboard / Настройка Личного кабинета покупателя и партнера</a></li>
+                    <li><a target="_blank" href="https://opencartforum.com/files/file/4335-yandekskassa-dengi/" class="btn btn-link">Shoputils: Яндекс.Касса + Деньги</a></li>
+                    <li><a target="_blank" href="https://github.com/TelegramBot/Api" class="btn btn-link">PHP Telegram Bot Api</a></li>
+                    <li><a target="_blank" href="https://php.net/" class="btn btn-link">PHP.NET</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>  
+        <input type="hidden" name="apply" id="apply" value="0"></form>
+      </div>
+    </div>  
+  </div>
+</div>
+<div data-backdrop="true" data-keyboard="true" id="ModalBox" class="modal fade">
+  <div class="modal-dialog modal-dialog-centered" style="width: 90%;">
+    <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h3 class="modal-title">{{ entry_wait }}</h3>
+    </div>  
+      <div class="modal-body">       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{{ button_close }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript"><!--
+function show() {
+  document.getElementById('proxy').style.display='block';
+}
+function hide() {
+  document.getElementById('proxy').style.display='none';
+}
+//--></script>
+<script type="text/javascript"><!--
+{% if (module_gixocnotifications_telegram_proxydata == '') %}
+$(document).ready(function() {
+    addProxy();
+});
+var proxy_row = 0;
+{% else %}
+var proxy_row = {{ count_telegram_proxydata }};
+{% endif %} 
+function addProxy() {
+	html = '                      <tr id="proxy' + proxy_row + '">';
+	html += '                        <td class="text-center"><input name="module_gixocnotifications_telegram_proxydata[' + proxy_row + '][status]" type="checkbox"></td>';
+	html += '                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[' + proxy_row + '][ip]" value="" placeholder="{{ column_ip }}"  class="form-control" /></td>';
+	html += '                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[' + proxy_row + '][port]" value="" placeholder="{{ column_port }}"  class="form-control" /></td>';
+	html += '                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[' + proxy_row + '][login]" value="" placeholder="{{ column_login }}"  class="form-control" /></td>';
+	html += '                        <td><input type="text" name="module_gixocnotifications_telegram_proxydata[' + proxy_row + '][password]" value="" placeholder="{{ column_password }}"  class="form-control" /></td>';
+	html += '                        <td><button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger pull-right" onclick="confirm(\'{{ text_confirm }}\') ? $(\'#proxy' + proxy_row + '\').remove() : false;"><i class="fa fa-trash-o"></i></button></td>';
+	html += '                      </tr>';
+
+    $('#proxy tbody').append(html);
+    proxy_row++;
+}
+//--></script>
+<script type="text/javascript"><!--
+{% for messenger in messengers %}
+{% if (attribute(module_gixocnotifications_groupdata, messenger)) %}
+var group_row_{{ messenger }} = {{ attribute(module_gixocnotifications_groupdata, messenger)|keys|last }} + 1;
+{% else %}
+var group_row_{{ messenger }} = 0;
+{% endif %}
+
+function addGroup{{ messenger }}() {
+	html = '                      <tr id="group_{{ messenger }}_new_' + group_row_{{ messenger }} + '">';
+	html += '                        <td><input type="text" name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][name]" value="" placeholder="{{ text_comment }}"  class="form-control" onKeyUp="ChangeOnFly(this, ' + group_row_{{ messenger }} + ',\'{{ messenger }}\');" /></td>';
+	html += '                        <td><input type="text" name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][id]" value="" placeholder="{{ messenger }} ID"  class="form-control" /></td>';
+	html += '                        <td class="text-center"><input type="checkbox" name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][new_order]"></td>';
+	html += '                        <td class="text-center"><input type="checkbox" name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][new_customer]"></td>';
+	html += '                        <td class="text-center"><input type="checkbox" name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][new_review]"></td>';
+	html += '                        <td class="text-center"><input type="checkbox" name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][new_return]"></td>';
+	html += '                        <td><button type="button" data-toggle="tooltip" title="{{ button_delete }}" class="btn btn-danger pull-right" onclick="confirm(\'{{ text_confirm }}\') ? delGroup(\'{{ messenger }}\', ' + group_row_{{ messenger }} + ') : false;"><i class="fa fa-trash-o"></i></button></td>';
+	html += '                      </tr>';
+
+    $('#add_new_{{ messenger }}').before(html);
+
+	html = '                      <tr id="group_{{ messenger }}_orders_' + group_row_{{ messenger }} + '">';
+	html += '<td class="text-left" id="group_{{ messenger }}_orders_' + group_row_{{ messenger }} + '_name" ></td>';
+	{% for order_status in order_statuses %}
+	html += '<td class="text-center"><input name="module_gixocnotifications_groupdata[{{ messenger }}][' + group_row_{{ messenger }} + '][orders][{{ order_status.order_status_id }}]" type="checkbox"></td>';
+	{% endfor %} 
+	html += '                      </tr>';
+
+    $('#add_orders_{{ messenger }} tbody').append(html);
+
+    group_row_{{ messenger }}++;
+}
+{% endfor %}
+
+function ChangeOnFly(e, id, messenger) {
+	$('#group_' + messenger + '_orders_' + id + '_name').html(e.value);
+}
+
+function delGroup(messenger, id) {
+	$('#group_' + messenger + '_new_' + id).remove(); 
+	$('#group_' + messenger + '_orders_' + id).remove()
+}
+//--></script>
+
+<script type="text/javascript"><!--
+function webhook(key) {
+  $(".modal-body").html('');
+  $(".modal-title").html('{{ entry_wait }}');
+  $("#ModalBox").modal('show');
+  bot_key = $('#' + key + '_key').val();
+  proxy = $("input[name='module_gixocnotifications_" + key + "_proxy']:checked").val();
+  proxydata = '';
+  if (proxy == '1'){
+    for (var i=0; i<proxy_row; i++) {
+      if (($('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][status]"]').is(':checked')) && ($('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][ip]"]').val() !== '') && ($('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][port]"]').val() !== '')) {
+        proxydata += $('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][ip]"]').val() + ':' + $('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][port]"]').val();
+      if (($('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][login]"]').val() !== '') || ($('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][password]"]').val() !== '')) {
+          proxydata += '@' + $('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][login]"]').val() + ':' + $('input[name="module_gixocnotifications_telegram_proxydata[' + i + '][password]"]').val();
+      };
+      proxydata += ';';
+    }
+    }
+  };
+
+  timeout = $('input[name="module_gixocnotifications_' + key + '_timeout"]').val();
+
+  $.ajax({  
+    url: 'index.php?route=extension/module/gixocnotifications/set_webhook&user_token={{ user_token }}',
+    type: 'post',
+    dataType: 'json',
+    data: 'key=' + key + '&bot_key=' + bot_key + '&timeout=' + timeout + '&proxy=' + proxy + '&proxydata=' + proxydata,
+    success: function(json) {
+    if (json['error']) {
+        $(".modal-title").html('Error!');
+        $(".modal-body").html('<div class="h4" style="color:red;text-align:center;">' + json['error'] + '</div>');
+    }
+          
+    if (json['success']) {
+        $(".modal-title").html('Success!');
+        $(".modal-body").html('<div class="h4" style="color:green;text-align:center;">' + json['success'] + '</div>');
+    }
+    
+    if (json['webhook']) {
+        $('input[name="module_gixocnotifications_' + key + '_webhook"]').val(json['webhook']);
+    }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      $("#ModalBox").modal('hide');
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);    
+    }
+  });
+}
+//--></script>
+<script type="text/javascript"><!--
+function clearLog(key) {
+  $(".modal-body").html('');
+  $("#ModalBox").modal('show');
+  $.ajax({
+    url: 'index.php?route=extension/module/gixocnotifications/clearLog&user_token={{ user_token }}',
+    type: 'post',
+    dataType: 'json',
+    data: 'key=' + key,
+    success: function(json) {
+    if (json['error']) {
+        $(".modal-title").html('Error!');
+        $(".modal-body").html('<div class="h4" style="color:red;text-align:center;">' + json['error'] + '</div>');
+    }
+
+    if (json['success']) {
+      $('#log_' + key).val('');
+        $(".modal-title").html('Success!');
+        $(".modal-body").html('<div class="h4" style="color:green;text-align:center;">' + json['success'] + '</div>');
+    }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }
+  });
+}
+//--></script>
+<script type="text/javascript"><!--
+function downloadLog(key) {
+  $(".modal-body").html('');
+  $("#ModalBox").modal('show');
+  $.ajax({
+    url: 'index.php?route=extension/module/gixocnotifications/downloadLog&user_token={{ user_token }}' + '&key=' + key,
+    type: 'GET',
+    success: function(json) {
+      if (json['error']) {
+        $(".modal-title").html('Error!');
+        $(".modal-body").html('<div class="h4" style="color:red;text-align:center;">' + json['error'] + '</div>');
+      }
+      else {
+        $("#ModalBox").modal('hide');
+        window.location = 'index.php?route=extension/module/gixocnotifications/downloadLog&user_token={{ user_token }}' + '&key=' + key;
+      }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+    }  
+  });
+}
+//--></script>
+<script type="text/javascript"><!--
+function help(key) {
+  $("#ModalBox").modal('show');
+  $.ajax({  
+    url: 'index.php?route=extension/module/gixocnotifications/help&user_token=' + '{{ user_token }}',
+    type: 'post',
+    dataType: 'json',
+    data: 'key=' + key,
+    success: function(json) {
+        if (json['error']) {
+            $(".modal-title").html('Error!');
+            $(".modal-body").html('<div class="h4" style="color:red;text-align:center;">' + json['error'] + '</div>');
+        }
+
+        if (json['success']) {
+            $(".modal-title").html(json['header']);
+            $(".modal-body").html(json['success']);
+        }
+    },
+    error: function(xhr, ajaxOptions, thrownError) {
+      $("#ModalBox").modal('hide');
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);    
+    }
+  });
+}
+//--></script>
+<script type="text/javascript"><!--
+function help_id(key) {
+  $(".modal-body").html('');
+  $(".modal-title").html('{{ entry_wait }}');
+  $("#ModalBox").modal('show');
+  webhook = $('input[name="module_gixocnotifications_' + key + '_webhook"]').val();
+  $.ajax({  
+    url: 'index.php?route=extension/module/gixocnotifications/help&user_token=' + '{{ user_token }}',
+    type: 'post',
+    dataType: 'json',
+    data: 'key=' + key + '&webhook=' + webhook,
+    success: function(json) {
+    if (json['error']) {
+        $(".modal-title").html('Error!');
+        $(".modal-body").html('<div class="h4" style="color:red;text-align:center;">' + json['error'] + '</div>');
+    }
+          
+    if (json['success']) {
+        $(".modal-title").html(json['header']);
+        $(".modal-body").html(json['success']);
+    }
+    }    ,      
+    error: function(xhr, ajaxOptions, thrownError) {
+      $("#ModalBox").modal('hide');
+      alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);    
+    }
+  });
+}
+//--></script>
+{{ footer }}

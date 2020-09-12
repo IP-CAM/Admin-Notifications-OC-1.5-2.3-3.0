@@ -1,0 +1,140 @@
+<?php
+// Heading
+$_['heading_title']                 = '<a href="https://gixoc.ru">GixOC.ru</a> - <b>Уведомления администратора (Telegram, Viber)</b>';
+$_['text_title']                    = 'GixOC.ru - Уведомления администратора (Telegram, Viber)';
+
+// Text
+$_['text_module']                   = 'Модули';
+$_['text_success']                  = 'Настройки сохранены';
+$_['text_token']                    = 'Проверка прошла успешно!';
+$_['text_edit']                     = 'Настройки';
+$_['text_cut']                      = 'Обрезать';
+$_['text_split']                    = 'Разбивать';
+//Vars
+$_['text_order_id']                 = 'Номер заказа';
+$_['text_store_name']               = 'Название магазина';
+$_['text_firstname']                = 'Имя';
+$_['text_lastname']                 = 'Фамилия';
+$_['text_email']                    = 'E-mail';
+$_['text_telephone']                = 'Телефон';
+$_['text_customer_groups']          = 'Группа покупателя';
+$_['text_payment_address']          = 'Адрес оплаты';
+$_['text_payment_method']           = 'Способ оплаты';
+$_['text_shipping_address']         = 'Адрес доставки';
+$_['text_shipping_method']          = 'Способ доставки';
+$_['text_total']                    = 'Итого';
+$_['text_comment']                  = 'Комментарий';
+$_['text_orders_status']            = 'Статус заказа';
+$_['text_date_added']               = 'Дата и время добавления';
+$_['text_date_modified']            = 'Дата и время изменения';
+$_['text_company']                  = 'Компания';
+$_['text_website']                  = 'Веб-сайт';
+$_['text_review']                   = 'Отзыв';
+$_['text_rating']                   = 'Оценка';
+$_['text_cart_start']               = 'Начало корзины';
+$_['text_product_name']             = '&nbsp;—&nbsp;Название товара';
+$_['text_product_url']              = '&nbsp;—&nbsp;Ссылка на товар';
+$_['text_product_model']            = '&nbsp;—&nbsp;Модель товара';
+$_['text_product_sku']              = '&nbsp;—&nbsp;Артикул товара';
+$_['text_product_price']            = '&nbsp;—&nbsp;Цена товара';
+$_['text_product_quantity']         = '&nbsp;—&nbsp;Количество товара';
+$_['text_product_total']            = '&nbsp;—&nbsp;Итого товара';
+$_['text_cart_finish']              = 'Конец корзины';
+$_['text_date_ordered']             = 'Дата заказа';
+$_['text_return_reason']            = 'Причина возврата';
+$_['text_return_opened']            = 'Товар распакован (Да/Нет)';
+$_['text_log_off']                  = 'Выключены';
+$_['text_log_small']                = 'Только ошибки';
+$_['text_log_all']                  = 'Полные (все запросы: успешные и ошибочные + тест уведомлений)';
+$_['text_clear_log_success']        = 'Логи успешно очищены!';
+$_['text_developer']                = 'Разработчик';
+$_['text_sources']                  = 'Используемые материалы';
+$_['text_url_download']             = 'Последнюю версию модуля Вы можете скачать по следующим ссылкам:';
+$_['text_old_version']              = 'У Вас установлена старая версия модуля - %s, её необходимо обновить до актуальной - %s! <br> Вы можете скачать новую версию с <a href="https://gixoc.ru/gixocnotifications" target="_blank">нашего сайта - GixOC.ru</a>';
+$_['text_new_version']              = 'У Вас установлена актуальная версия модуля (%s)! <br> Но Вы можете скачать другие бесплатные модули с <a href="https://gixoc.ru/module" target="_blank">нашего сайта - GixOC.ru</a>';
+$_['text_variables']                = 'Список поддерживаемых переменных';
+$_['text_confirm']          		= 'Вы уверены?';
+
+// Button
+$_['button_verify']                 = 'Проверить';
+$_['button_proxy_add']              = 'Добавить прокси';
+$_['button_apply']                  = 'Применить';
+$_['button_download']               = 'Скачать';
+
+// Tab
+$_['tab_general']                   = 'Общие';
+$_['tab_template']                  = 'Шаблоны уведомлений';
+$_['tab_users']                     = 'Настройки пользователей';
+$_['tab_logs']                      = 'Логи';
+$_['tab_support']                   = 'Поддержка';
+$_['tab_action']                    = 'Действие';
+
+// Legend
+$_['legend_new_order']              = 'Шаблон уведомления о новом заказе';
+$_['legend_new_customer']           = 'Шаблон уведомления о новом покупателе';
+$_['legend_new_affiliate']          = 'Шаблон уведомления о новом партнере';
+$_['legend_new_review']             = 'Шаблон уведомления о новом отзыве';
+$_['legend_new_return']             = 'Шаблон уведомления о новом возврате';
+$_['legend_orders']                 = 'Шаблоны уведомлений о статусах заказа';
+
+// Column
+$_['column_use']                    = 'Использовать';
+$_['column_ip']                     = 'IP-адрес';
+$_['column_port']                   = 'Порт';
+$_['column_login']                  = 'Логин';
+$_['column_password']               = 'Пароль';
+$_['column_user']                   = 'Администратор';
+$_['column_id']                     = ' ID';
+$_['column_new']                    = 'Уведомлять о новом';
+$_['column_orders']                 = 'Уведомлять о заказе';
+$_['column_new_order']              = 'заказе';
+$_['column_new_customer']           = 'покупателе';
+$_['column_new_affiliate']          = 'партнере';
+$_['column_new_review']             = 'отзыве';
+$_['column_new_return']             = 'возврате';
+
+// Entry
+$_['entry_status']                  = 'Статус';
+$_['entry_wait']                    = 'Пожалуйста, подождите...';
+//Telegram
+$_['entry_telegram_key']            = 'Telegram Bot Ключ (токен)';
+$_['entry_get_token_telegram']      = 'Как получить Telegram Bot Ключ (токен)';
+$_['entry_proxy']                   = 'Прокси (только Socks 5!)';
+$_['entry_proxy_status']            = 'Использовать прокси';
+//Viber
+$_['entry_viber_key']               = 'Viber Bot Ключ (токен)';
+$_['entry_get_token_viber']         = 'Как получить Viber Bot Ключ (токен)';
+
+// Help
+$_['help_new_order']                = 'Здесь можно настроить шаблон уведомления о новом заказе (со страницы %sindex.php?route=checkout/success)';
+$_['help_new_order_ex']             = 'Вы получили новый заказ №{order_id}, магазин {store_name}, номер телефона: {customer_telephone}, e-mail покупателя: {customer_email}';
+$_['help_orders']                   = 'Здесь можно настроить индивидуальный шаблон уведомлений для любого статуса заказа';
+$_['help_orders_ex']                = 'Статус заказа №{order_id} изменился на {order_status}, магазин {store_name}';
+$_['help_new_customer']             = 'Здесь можно настроить шаблон уведомления о регистрации нового покупателя';
+$_['help_new_customer_ex']          = 'Зарегистрировался новый покупатель: магазин {store_name}, {customer_firstname}, номер телефона: {customer_telephone}, e-mail покупателя: {customer_email}';
+$_['help_new_affiliate']            = 'Здесь можно настроить шаблон уведомления о регистрации нового партнера';
+$_['help_new_affiliate_ex']         = 'Зарегистрировался новый партнер: магазин {store_name}, {affiliate_firstname}, номер телефона: {affiliate_telephone}, e-mail покупателя: {affiliate_email}';
+$_['help_new_review']               = 'Здесь можно настроить шаблон уведомления о новом отзыве к товару';
+$_['help_new_review_ex']            = 'Вы получили новый отзыв к товару {product_name} (артикул {product_sku}) от покупателя {name}, магазин {store_name}. Текст отзыва: {review}';
+$_['help_new_return']               = 'Здесь можно настроить шаблон уведомления о новом возврате';
+$_['help_new_return_ex']            = 'Покупатель {customer_firstname} запросил возврат товара {product_name} (модель {product_model}), заказ № {order_id}, магазин {store_name}. Комментарий от покупателя: "{comment}"';
+$_['help_module']                   = 'Инструкция по настройке модуля';
+$_['help_bot_telegram']             = '<a href="https://gixoc.ru/blog/get_bot_telegram/">Создать бота в Telegram — GixOС.ru</a>';
+$_['help_bot_viber']                = '<a href="https://gixoc.ru/blog/get_bot_viber/">Создать бота в Viber — GixOС.ru</a>';
+$_['help_trim_messages']            = 'Длинное сообщение';
+$_['help_timeout']                  = 'Таймаут соединения';
+$_['help_proxy']                    = 'Прокси';
+$_['help_id_telegram']              = 'Как получить ID пользователя в Telegram';
+$_['help_id_viber']                 = 'Как получить ID пользователя в Viber';
+$_['help_log']                      = 'Лог';
+$_['help_license']                  = 'Лицензия';
+$_['help_thanks']                   = 'Поблагодарить';
+$_['help_faq']                      = 'Часто Задаваемые Вопросы';
+$_['help_support']                  = 'Поддержка';
+
+// Error
+$_['error_token']                   = 'Неправильный Bot Token или недоступен мессенджер!';
+//Error Viber
+$_['error_viber']                   = ' <b>К сожалению, Viber требует наличия у сайта защищенного соединения и настроенного ЧПУ.</b> Советуем Вам <a target="_blank" href="http://forum.opencart.pro/topic/5083-%D1%80%D1%83%D0%BA%D0%BE%D0%B2%D0%BE%D0%B4%D1%81%D1%82%D0%B2%D0%BE-%D0%B4%D0%BB%D1%8F-%D0%BF%D0%B5%D1%80%D0%B5%D1%85%D0%BE%D0%B4%D0%B0-%D0%BD%D0%B0-ssl-https-v20/"> перейти на использование SSL</a>.';
+$_['error_warning']                 = 'Внимание: Ваш  файл ошибок %s имеет размер %s!';
+$_['error_permission']              = 'У вас нет прав для управления модулем ' . $_['heading_title'] .'!';
