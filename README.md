@@ -1,4 +1,4 @@
-# Admin Notifications / Administrator notifications (Telegram, Viber)
+Administrator notifications (Telegram, Viber)
 
 Module for notifying administrators of the Opencart store (OcStore) about the new:
 1) ordering
